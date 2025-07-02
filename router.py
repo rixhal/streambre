@@ -2,8 +2,10 @@ from flask import Flask, request, jsonify, send_file
 import os
 from scraper.aniworld import search_aniworld
 from utils.language_filter import filter_by_language
+from flask_cors import CORS
 
 app = Flask(__name__)
+CORS(app)
 
 @app.after_request
 def add_ngrok_header(response):
