@@ -1,26 +1,44 @@
 import requests
-from flask import jsonify
+from bs4 import BeautifulSoup
 
 def search_aniworld(query):
-    print("search_aniworld wurde aufgerufen mit:", query)
-    url = "https://aniworld.to/ajax/search"
+    url = f"https://aniworld.to/anime-search?search={query}"
     headers = {
-        "User-Agent": "Mozilla/5.0",
-        "X-Requested-With": "XMLHttpRequest",
-        "Referer": "https://aniworld.to/search"
+        "User-Agent": "Mozilla/5.0"
     }
-    data = {"keyword": query}
-    response = requests.post(url, headers=headers, data=data)
-    print("Status Code:", response.status_code)
-    print("Antwort:", response.text)
-    response.raise_for_status()
+    resp = requests.get(url, headers=headers, timeout=10)
+    soup = BeautifulSoup(resp.text, "lxml")
     results = []
-    for entry in response.json():
-        print("DEBUG LINK:", entry["link"])
-        if entry["link"].startswith("/anime/stream/"):
-            results.append({
-                "title": entry["title"],
-                "url": f'https://aniworld.to{entry["link"]}',
-                "description": entry.get("description", "")
-            })
-    return results  # NICHT jsonify(results)
+    for entry in soup.select(".anime-entry"):
+        title = entry.select_one(".anime-title").get_text(strip=True)
+        link = entry.select_one("a")["href"]
+        poster = entry.select_one("img")["src"]
+        results.append({
+            "id": link.split("/")[-1],
+            "type": "series",
+            "name": title,
+            "poster": poster,
+            "description": "",  # Optional: Scrape Beschreibung auf Detailseite
+            "genres": []        # Optional: Scrape Genres auf Detailseite
+        })
+    return results
+
+def get_popular_aniworld():
+    url = "https://aniworld.to/"
+    headers = {"User-Agent": "Mozilla/5.0"}
+    resp = requests.get(url, headers=headers, timeout=10)
+    soup = BeautifulSoup(resp.text, "lxml")
+    results = []
+    for entry in soup.select(".top-anime .anime-entry"):
+        title = entry.select_one(".anime-title").get_text(strip=True)
+        link = entry.select_one("a")["href"]
+        poster = entry.select_one("img")["src"]
+        results.append({
+            "id": link.split("/")[-1],
+            "type": "series",
+            "name": title,
+            "poster": poster,
+            "description": "",
+            "genres": []
+        })
+    return results

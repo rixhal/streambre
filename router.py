@@ -1,24 +1,12 @@
 from flask import Flask, request, jsonify, send_file
 import os
 from flask_cors import CORS
+from scraper.aniworld import search_aniworld, get_popular_aniworld
+import random
+import string
 
 app = Flask(__name__)
 CORS(app)
-
-# Dummy-Scraper für Demo-Zwecke
-def search_aniworld(query):
-    # Hier später echten Scraper einbinden!
-    # Beispiel-Daten:
-    return [
-        {
-            "id": "aniworld-001",
-            "type": "series",
-            "name": f"Demo Anime zu '{query}'",
-            "poster": "https://aniworld.to/img/demo.jpg",
-            "description": "Demo-Beschreibung",
-            "genres": ["Action", "Abenteuer"]
-        }
-    ]
 
 @app.route("/catalog/series/streambre.catalog/search=<query>")
 def catalog(query):
@@ -27,26 +15,11 @@ def catalog(query):
 
 @app.route("/catalog/series/streambre.catalog.json")
 def catalog_no_search():
-    return jsonify({
-        "metas": [
-            {
-                "id": "aniworld-001",
-                "type": "series",
-                "name": "Demo Anime 1",
-                "poster": "https://upload.wikimedia.org/wikipedia/commons/6/65/No-Image-Placeholder.svg",
-                "description": "Demo-Beschreibung",
-                "genres": ["Action", "Abenteuer"]
-            },
-            {
-                "id": "aniworld-002",
-                "type": "series",
-                "name": "Demo Anime 2",
-                "poster": "https://upload.wikimedia.org/wikipedia/commons/6/65/No-Image-Placeholder.svg",
-                "description": "Noch ein Demo",
-                "genres": ["Comedy"]
-            }
-        ]
-    })
+    try:
+        results = get_popular_aniworld()
+    except Exception as e:
+        results = []
+    return jsonify({"metas": results})
 
 @app.route("/manifest.json")
 def manifest():
