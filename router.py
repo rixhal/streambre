@@ -23,7 +23,7 @@ def search_aniworld(query):
 @app.route("/catalog/series/streambre.catalog/search=<query>")
 def catalog(query):
     results = search_aniworld(query)
-    return jsonify(results)
+    return jsonify({"metas": results})
 
 @app.route("/catalog/series/streambre.catalog.json")
 def catalog_no_search():
