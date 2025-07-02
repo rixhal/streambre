@@ -1,30 +1,34 @@
 from flask import Flask, request, jsonify, send_file
 import os
-from scraper.aniworld import search_aniworld
-from utils.language_filter import filter_by_language
 from flask_cors import CORS
 
 app = Flask(__name__)
 CORS(app)
 
-@app.after_request
-def add_ngrok_header(response):
-    response.headers["ngrok-skip-browser-warning"] = "true"
-    return response
+# Dummy-Scraper für Demo-Zwecke
+def search_aniworld(query):
+    # Hier später echten Scraper einbinden!
+    # Beispiel-Daten:
+    return [
+        {
+            "id": "aniworld-001",
+            "type": "series",
+            "name": f"Demo Anime zu '{query}'",
+            "poster": "https://aniworld.to/img/demo.jpg",
+            "description": "Demo-Beschreibung",
+            "genres": ["Action", "Abenteuer"]
+        }
+    ]
 
 @app.route("/catalog/series/streambre.catalog/search=<query>")
 def catalog(query):
     results = search_aniworld(query)
-    filtered = filter_by_language(results)
-    return jsonify(filtered)
+    return jsonify(results)
 
 @app.route("/manifest.json")
 def manifest():
     return send_file(os.path.join(os.path.dirname(__file__), "manifest.json"))
 
-# Weitere Endpunkte für /stream etc. können ergänzt werden
-
 if __name__ == "__main__":
-    import os
     port = int(os.environ.get("PORT", 10000))
     app.run(host="0.0.0.0", port=port)
