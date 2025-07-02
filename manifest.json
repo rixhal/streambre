@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "name": "Streambre DE Addon",
   "description": "Stremio Addon für deutsche Inhalte (Dub/Sub)",
-  "resources": ["stream"],
+  "resources": ["catalog", "stream", "meta"],
   "types": ["series"],
   "catalogs": [
     {
@@ -16,5 +16,5 @@
       ]
     }
   ],
-  "idPrefixes": ["tt"]
+  "idPrefixes": ["tt", "aniworld"]
 }
