@@ -1,6 +1,7 @@
 Flask
 requests
 beautifulsoup4
-lxml 
+lxml
 pytube
 aiohttp
+flask-cors
