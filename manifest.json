@@ -1,0 +1,20 @@
+{
+  "id": "org.streambre.addon",
+  "version": "1.0.0",
+  "name": "Streambre DE Addon",
+  "description": "Stremio Addon für deutsche Inhalte (Dub/Sub)",
+  "resources": ["stream"],
+  "types": ["series"],
+  "catalogs": [
+    {
+      "type": "series",
+      "id": "streambre.catalog",
+      "name": "Streambre Katalog",
+      "extra": [
+        {"name": "search", "isRequired": false},
+        {"name": "genre", "isRequired": false}
+      ]
+    }
+  ],
+  "idPrefixes": ["tt"]
+}
