@@ -33,7 +33,7 @@ def catalog_no_search():
                 "id": "aniworld-001",
                 "type": "series",
                 "name": "Demo Anime 1",
-                "poster": "https://aniworld.to/img/demo.jpg",
+                "poster": "https://upload.wikimedia.org/wikipedia/commons/6/65/No-Image-Placeholder.svg",
                 "description": "Demo-Beschreibung",
                 "genres": ["Action", "Abenteuer"]
             },
@@ -41,7 +41,7 @@ def catalog_no_search():
                 "id": "aniworld-002",
                 "type": "series",
                 "name": "Demo Anime 2",
-                "poster": "https://aniworld.to/img/demo2.jpg",
+                "poster": "https://upload.wikimedia.org/wikipedia/commons/6/65/No-Image-Placeholder.svg",
                 "description": "Noch ein Demo",
                 "genres": ["Comedy"]
             }
