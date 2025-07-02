@@ -1,2 +1,6 @@
 Flask
 requests
+beautifulsoup4
+lxml 
+pytube
+aiohttp
