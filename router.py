@@ -25,6 +25,28 @@ def catalog(query):
     results = search_aniworld(query)
     return jsonify(results)
 
+@app.route("/catalog/series/streambre.catalog.json")
+def catalog_no_search():
+    # Gib eine Liste von Beispiel-Serien zurück
+    return jsonify([
+        {
+            "id": "aniworld-001",
+            "type": "series",
+            "name": "Demo Anime 1",
+            "poster": "https://aniworld.to/img/demo.jpg",
+            "description": "Demo-Beschreibung",
+            "genres": ["Action", "Abenteuer"]
+        },
+        {
+            "id": "aniworld-002",
+            "type": "series",
+            "name": "Demo Anime 2",
+            "poster": "https://aniworld.to/img/demo2.jpg",
+            "description": "Noch ein Demo",
+            "genres": ["Comedy"]
+        }
+    ])
+
 @app.route("/manifest.json")
 def manifest():
     return send_file(os.path.join(os.path.dirname(__file__), "manifest.json"))
